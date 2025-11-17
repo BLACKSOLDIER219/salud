@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Ejercicio 5 Plus</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>Mediciones de Saturación SpO2 (con Estadísticas)</h2>
+    <form onsubmit="registrar(event)">
+        <label>Saturación (%): <input type="number" id="spo2" min="0" max="100"></label>
+        <button type="submit">Agregar</button>
+        <button type="button" onclick="terminar()">Terminar</button>
+    </form>
+    <div id="resultado"></div>
+    <ul id="lista"></ul>
+    <script>
+        let registros = [];
+        function registrar(event) {
+            event.preventDefault();
+            let spo2 = parseFloat(document.getElementById("spo2").value);
+            if (isNaN(spo2) || spo2 < 0 || spo2 > 100) return;
+            registros.push(spo2);
+            document.getElementById("spo2").value = "";
+            actualizarLista();
+        }
+        function terminar() {
+            let promedio = registros.length > 0 ? registros.reduce((a,b)=>a+b)/registros.length : 0;
+            let bajos = registros.filter(s => s < 95).length;
+            document.getElementById("resultado").textContent = `Registros: ${registros.length}, Promedio: ${promedio.toFixed(2)} %, Bajos (<95%): ${bajos}`;
+        }
+        function actualizarLista() {
+            let lista = document.getElementById("lista");
+            lista.innerHTML = "";
+            registros.forEach(s => {
+                let li = document.createElement("li");
+                li.textContent = `${s} % ${s < 95 ? '(Bajo)' : ''}`;
+                lista.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>

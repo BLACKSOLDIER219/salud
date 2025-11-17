@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Ejercicio 3 Plus</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>Contar Pacientes con Fiebre (con Estadísticas)</h2>
+    <button onclick="contar()">Contar Fiebres</button>
+    <div id="resultado"></div>
+    <ul id="lista"></ul>
+    <script>
+        function contar() {
+            let contador = 0;
+            let temperaturas = [];
+            let temp;
+            while ((temp = parseFloat(prompt("Temperatura en °C (0 para terminar):"))) !== 0) {
+                if (isNaN(temp) || temp < 30 || temp > 45) {
+                    alert("Temperatura inválida, intenta de nuevo.");
+                    continue;
+                }
+                temperaturas.push(temp);
+                if (temp >= 38) contador++;
+            }
+            let promedio = temperaturas.length > 0 ? temperaturas.reduce((a,b)=>a+b)/temperaturas.length : 0;
+            document.getElementById("resultado").textContent = `Pacientes con fiebre: ${contador}, Promedio temperatura: ${promedio.toFixed(2)} °C`;
+            let lista = document.getElementById("lista");
+            lista.innerHTML = "";
+            temperaturas.forEach(t => {
+                let li = document.createElement("li");
+                li.textContent = `${t} °C ${t >= 38 ? '(Fiebre)' : ''}`;
+                lista.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>

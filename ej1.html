@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Ejercicio 1 Plus</title>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Clasificación de Presión Arterial (con Gráfico)</h2>
+    <form onsubmit="clasificar(event)">
+        <label>Sistólica (mmHg): <input type="number" id="sis" min="0" required></label>
+        <label>Diastólica (mmHg): <input type="number" id="dia" min="0" required></label>
+        <button type="submit">Clasificar</button>
+    </form>
+    <div id="resultado"></div>
+    <canvas id="grafico" width="400" height="200"></canvas>
+    <script>
+        function clasificar(event) {
+            event.preventDefault();
+            let sis = parseInt(document.getElementById("sis").value);
+            let dia = parseInt(document.getElementById("dia").value);
+            if (isNaN(sis) || isNaN(dia) || sis < 0 || dia < 0) {
+                document.getElementById("resultado").textContent = "Error: Valores inválidos.";
+                return;
+            }
+            let clasificacion;
+            if (sis < 120 && dia < 80) clasificacion = "Normal";
+            else if (sis < 130 && dia < 80) clasificacion = "Elevada";
+            else if (sis < 140 || dia < 90) clasificacion = "HTA Grado 1";
+            else clasificacion = "HTA Grado 2";
+            document.getElementById("resultado").textContent = `Presión: ${sis}/${dia} mmHg - Clasificación: ${clasificacion}`;
+            
+            const ctx = document.getElementById('grafico').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Normal', 'Elevada', 'HTA Grado 1', 'HTA Grado 2'],
+                    datasets: [{
+                        label: 'Rango Sistólico',
+                        data: [120, 130, 140, 180],
+                        backgroundColor: ['green', 'yellow', 'orange', 'red']
+                    }]
+                }
+            });
+        }
+    </script>
+</body>
+</html>

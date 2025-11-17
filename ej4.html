@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Ejercicio 4 Plus</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>Clasificación de TRIAGE (con Descripciones)</h2>
+    <form onsubmit="clasificar(event)">
+        <label>Código: 
+            <select id="codigo" required>
+                <option value="">Selecciona</option>
+                <option value="1">1 - Rojo</option>
+                <option value="2">2 - Amarillo</option>
+                <option value="3">3 - Verde</option>
+                <option value="4">4 - Azul</option>
+            </select>
+        </label>
+        <button type="submit">Clasificar</button>
+    </form>
+    <div id="resultado"></div>
+    <script>
+        function clasificar(event) {
+            event.preventDefault();
+            let codigo = parseInt(document.getElementById("codigo").value);
+            let categoria, desc;
+            switch (codigo) {
+                case 1: categoria = "Rojo"; desc = "Emergencia inmediata."; break;
+                case 2: categoria = "Amarillo"; desc = "Urgente, pero no inmediata."; break;
+                case 3: categoria = "Verde"; desc = "No urgente."; break;
+                case 4: categoria = "Azul"; desc = "Muerto o sin esperanza."; break;
+                default: categoria = "Código inválido"; desc = "";
+            }
+            document.getElementById("resultado").innerHTML = `<strong>Categoría:</strong> ${categoria}<br><strong>Descripción:</strong> ${desc}`;
+        }
+    </script>
+</body>
+</html>

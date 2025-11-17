@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Ejercicio 2 Plus</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h2>Registrar Temperaturas de Pacientes (con Estadísticas)</h2>
+    <form onsubmit="registrar(event)">
+        <label>Número de pacientes: <input type="number" id="num" min="1" required></label>
+        <button type="submit">Registrar</button>
+    </form>
+    <div id="resultado"></div>
+    <ul id="lista"></ul>
+    <script>
+        function registrar(event) {
+            event.preventDefault();
+            let num = parseInt(document.getElementById("num").value);
+            let temperaturas = [];
+            let suma = 0;
+            for (let i = 0; i < num; i++) {
+                let temp = parseFloat(prompt(`Temperatura paciente ${i+1} en °C:`));
+                if (isNaN(temp) || temp < 30 || temp > 45) {
+                    document.getElementById("resultado").textContent = "Error: Temperatura inválida.";
+                    return;
+                }
+                temperaturas.push(temp);
+                suma += temp;
+            }
+            let promedio = suma / num;
+            let max = Math.max(...temperaturas);
+            let min = Math.min(...temperaturas);
+            document.getElementById("resultado").textContent = `Promedio: ${promedio.toFixed(2)} °C, Máx: ${max} °C, Mín: ${min} °C`;
+            let lista = document.getElementById("lista");
+            lista.innerHTML = "";
+            temperaturas.forEach(t => {
+                let li = document.createElement("li");
+                li.textContent = `${t} °C`;
+                lista.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
